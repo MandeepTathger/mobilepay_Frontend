@@ -17,7 +17,8 @@ import LoginScreen from './src/screens/login';
 import { NativeBaseProvider, extendTheme } from 'native-base';
 import { Provider } from 'react-redux'
 import { store } from './app/store'
-import HomeScreen from './src/screens/home';
+import MainHomeScreen from './src/screens/tabs';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -33,16 +34,21 @@ function App(): React.JSX.Element {
     <Provider store={store}>
       <NativeBaseProvider theme={extendedTheme}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
+          <Stack.Navigator 
+            screenOptions={{
+              headerShown: false
+            }}>
+            {/* <Stack.Screen
               name="login"
               component={LoginScreen}
               options={{title: 'Login'}}
-            />
+            /> */}
             <Stack.Screen
               name="Home"
-              component={HomeScreen}
-              options={{title: 'Welcome'}}
+              // screenOptions={{
+              //   headerShown: false
+              // }}
+              component={MainHomeScreen}
             />
             {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
           </Stack.Navigator>

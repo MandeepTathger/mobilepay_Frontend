@@ -1,8 +1,10 @@
-import { Input, Box, Button, FormControl } from "native-base";
+import { Box, FormControl } from "native-base";
 import { useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import { login } from "../../../services/authServices";
 import { useToast } from 'native-base';
+import InputBox from "../../components/Input";
+import CustomButton from "../../components/Button";
 
 const LoginScreen = ({navigation}) => {
 
@@ -54,22 +56,35 @@ const LoginScreen = ({navigation}) => {
     }
   }
 
+  console.log(user, "user>>>")
+
   return (
     <SafeAreaView style={styles.main}>
       <View style={styles.loginCon}>
         <FormControl isInvalid={errors?.name ? true : false} mb={5}>
-          <Input variant="rounded" size="md" placeholder="Enter User Name" w="100%" h={10} pl={5} type="text" onChangeText={(e) =>handleChange(e, 'userName')}/>
+          <InputBox 
+            placeholder="Enter User Name" 
+            type="text" 
+            handleChange={(e) => handleChange(e, 'userName')} 
+          />
           {/* <FormControl.ErrorMessage >
             {errors.name}
           </FormControl.ErrorMessage> */}
           {/* {errors.name && <Text style={styles.error}>{errors.name}</Text>} */}
         </FormControl>
         <FormControl isInvalid={errors?.password ? true : false} mb={6}>
-          <Input variant="rounded" size="md" placeholder="Enter Password" w="100%" h={10} pl={5} type="password" onChangeText={(e) =>handleChange(e, 'password')}/>
+          <InputBox 
+            placeholder="Enter Password" 
+            type="password"
+            handleChange={(e) =>handleChange(e, 'password')} 
+          />
           {/* {errors.password && <Text style={styles.error}>{errors.password}</Text>} */}
         </FormControl>
-        <Button isLoading={isLoading} style={styles.button} fontWeight={600} size={"md"} onPress={onSubmit}>LOGIN</Button>
-  
+        <CustomButton 
+          isLoading={isLoading}
+          onSubmit={onSubmit}
+          title={"LOGIN"}
+        />
       </View>
     </SafeAreaView>
   );
