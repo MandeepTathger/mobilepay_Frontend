@@ -1,5 +1,6 @@
 import { Text } from "native-base";
 import { StyleSheet, View } from "react-native";
+import Colors from "../../../color";
 
 
 const UserCard = ({title, text, width, amount}) => {
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   heading: {
     fontWeight: 600,
     fontSize: 14,
-    color: '#525252'
+    color: Colors.heading
   },
   text: {
     fontWeight: 600,

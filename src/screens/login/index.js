@@ -35,19 +35,14 @@ const LoginScreen = ({navigation}) => {
       setIsLoading(true)
       try{
         const data = await login(user)
-        console.log('13223')
         if(data){
-          console.log('1')
           setIsLoading(false)
-          console.log('2')
           navigation.navigate('Home')
-          console.log('3')
           toast.show({
             description: "Welcome"
           })
         }
       } catch(err){
-        console.log('13223err')
         toast.show({
           description: err
         })

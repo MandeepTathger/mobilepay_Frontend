@@ -1,5 +1,6 @@
 import { Text } from "native-base";
 import { StyleSheet, View } from "react-native";
+import Colors from "../../../color";
 
 
 const Card = ({title, text, width}) => {
@@ -26,11 +27,11 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     fontSize: 18,
     paddingBottom: 2,
-    color: '#525252'
+    color: Colors.heading
   },
   text: {
     fontWeight: 600,
-    color: '#737373'
+    color: Colors.text
   }                     
 })
 

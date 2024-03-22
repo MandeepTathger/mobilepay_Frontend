@@ -1,12 +1,14 @@
 import { Button } from "native-base";
 import { StyleSheet } from "react-native";
 
-const CustomButton = ({ isLoading, onSubmit, title }) => {
+const CustomButton = ({ isLoading, onSubmit, title, variant, width, size }) => {
   return <Button 
           isLoading={isLoading} 
+          width={width}
           style={styles.button} 
           fontWeight={600} 
-          size={"md"} 
+          size={size || "md"} 
+          variant={variant}
           onPress={onSubmit}>
             {title}
         </Button>

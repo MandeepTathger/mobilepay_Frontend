@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../homeScreen';
-import Users from '../users';
+import Users from '../Users';
 // import Icon from "react-native-vector-icons/MaterialIcons";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import Profile from '../profile';
+import Colors from '../../../color';
 
 
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -15,6 +17,7 @@ const MainHomeScreen = ({navigation}) => {
   return <Tab.Navigator 
           screenOptions={{ 
             tabBarShowLabel: false,
+            headerShown: false
           }}
         >
 					<Tab.Screen 
@@ -23,16 +26,16 @@ const MainHomeScreen = ({navigation}) => {
             options={{
               // tabBarShowLabel: false,
               tabBarIcon: ({ focused, color, size }) => (
-                <FeatherIcon name="home" color={focused ? "#0891b2": color} size={size} />
+                <FeatherIcon name="home" color={focused ? Colors.primary : color} size={size} />
               ),
             }}
           />
           <Tab.Screen 
             name="Profile" 
-            component={HomeScreen} 
+            component={Profile} 
             options={{
               tabBarIcon: ({ focused, color, size }) => (
-                <Icon name="user" color={focused ? "#0891b2": color} size={size} />
+                <Icon name="user" color={focused ? Colors.primary : color} size={size} />
               ),
             }}
           />
@@ -41,8 +44,8 @@ const MainHomeScreen = ({navigation}) => {
             component={Users} 
             options={{
               tabBarIcon: ({ focused, color, size }) => (
-                <FeatherIcon name="list" color={focused ? "#0891b2": color} size={size} />
-              ),
+                <FeatherIcon name="list" color={focused ? Colors.primary : color} size={size} />
+              )
             }}
           />
 					{/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}

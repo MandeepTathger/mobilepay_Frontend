@@ -2,9 +2,11 @@ import { Text, View } from 'native-base';
 import { ScrollView, StyleSheet } from "react-native";
 import Card from '../../components/Card';
 import UserCard from '../../components/UserCard';
+import Colors from '../../../color';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
-  return <View style={styles.home}>
+  return <SafeAreaView style={styles.home}>
           <View style={styles.conHorizontal}>
             <Card title={'Heading'} text={'12123123'} width={'47%'} />
             <Card title={'Heading'} text={'12123123'} width={'47%'} />
@@ -13,24 +15,27 @@ const HomeScreen = () => {
             <Card title={'Heading'} text={'12123123'} width={'100%'} />
           </View>
           <Text style={styles.label}>Top 5 Users</Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {[1,2,3,4,5].map(i => {
-              return <UserCard 
-                      key={i}
-                      title={'UserName'} 
-                      text={'Name'} 
-                      width={'100%'}
-                      amount={'100'}
-                    />
-            })}
-          </ScrollView>
-      </View>
+          <View>
+            <ScrollView  showsVerticalScrollIndicator={false}>
+              {[1,2,3,4,5].map(i => {
+                return <UserCard 
+                        key={i}
+                        title={'UserName'} 
+                        text={'Name'} 
+                        width={'100%'}
+                        amount={'100'}
+                      />
+              })}
+            </ScrollView>
+          </View>
+          
+      </SafeAreaView>
 }
 
 const styles = StyleSheet.create({
   home: {
     flex: 1,
-    backgroundColor: '#fafafa',
+    backgroundColor:  Colors.secondary,
     padding: 20
   },
   conHorizontal: {
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 30,
     marginBottom: 20,
-    color: '#525252'
+    color: Colors.heading
   }
 });
 

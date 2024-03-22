@@ -44,10 +44,7 @@ function App(): React.JSX.Element {
               options={{title: 'Login'}}
             /> */}
             <Stack.Screen
-              name="Home"
-              // screenOptions={{
-              //   headerShown: false
-              // }}
+              name="landingPage"
               component={MainHomeScreen}
             />
             {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
