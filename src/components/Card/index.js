@@ -1,6 +1,6 @@
 import { Text } from "native-base";
 import { StyleSheet, View } from "react-native";
-import Colors from "../../../color";
+import Colors from "../../../constants/color";
 
 
 const Card = ({title, text, width}) => {

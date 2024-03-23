@@ -2,7 +2,7 @@ import { Text, View } from 'native-base';
 import { ScrollView, StyleSheet } from "react-native";
 import Card from '../../components/Card';
 import UserCard from '../../components/UserCard';
-import Colors from '../../../color';
+import Colors from '../../../constants/color';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {

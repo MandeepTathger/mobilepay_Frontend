@@ -5,7 +5,7 @@ import Users from '../Users';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Profile from '../profile';
-import Colors from '../../../color';
+import Colors from '../../../constants/color';
 
 
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'

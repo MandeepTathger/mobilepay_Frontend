@@ -1,7 +1,7 @@
 import { FormControl, Text, View } from "native-base"
 import { StyleSheet, TouchableOpacity } from "react-native";
 import InputBox from "../../../../components/Input";
-import Colors from "../../../../../color";
+import Colors from "../../../../../constants/color";
 import CustomButton from "../../../../components/Button";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView } from "react-native-safe-area-context";

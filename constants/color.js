@@ -2,7 +2,9 @@ const Colors = {
     primary: '#0891b2',
     secondary: '#fafafa',
     heading: '#525252',
-    text: '#737373'
+    text: '#737373',
+    red: '#f54242',
+    lightRed: '#fce1e1'
     // success: '#28a745',
     // danger: '#dc3545',
     // warning: '#ffc107',

@@ -1,21 +1,29 @@
-import { Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import UserCard from "../../components/UserCard";
-import { Button, Divider, FormControl, Modal, Text } from "native-base";
-import Colors from "../../../color";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Actionsheet, Box, Button, Divider, FormControl, Modal, Text, useDisclose } from "native-base";
+import Colors from "../../../constants/color";
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState } from "react";
 import InputBox from "../../components/Input";
 import CustomButton from "../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AvatarColors from "../../../constants/avatarColors";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 const Profile = () => {
 
   const [open, setOpen] = useState(false);
 
+  const char = "Username"?.substring(0,1)
+
   return <SafeAreaView style={styles.page}>
           <View style={styles.coloredCon}>
-            <View style={styles.avatar}></View>
+            <TouchableOpacity style={styles.editIcon}>
+              <FeatherIcon name="edit" color={'#fff'} size={25}/>
+            </TouchableOpacity>
+            <View style={[styles.avatar, {backgroundColor: AvatarColors[char]}]}>
+              <Text style={styles.char}>{char}</Text>
+            </View>
             <Text style={styles.avatarText}>Username</Text>
           </View>
           <View style={styles.detailCon}>
@@ -37,51 +45,58 @@ const Profile = () => {
             </View>
             <View style={[styles.detail, {paddingVertical: 0}]}>
               <TouchableOpacity style={styles.actionCard} onPress={() => setOpen(true)}>
-                <View style={[styles.iconCon, {backgroundColor: '#fce1e1'}]}>
-                  <FeatherIcon name="lock" color={'#f54242'} size={20}/>
+                <View style={[styles.iconCon, {backgroundColor: Colors.lightRed}]}>
+                  <FeatherIcon name="lock" color={Colors.red} size={20}/>
                 </View>
                 <Text style={[styles.label, styles.passText]}>Change Password</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.detail} >
-              <TouchableOpacity style={styles.actionCard} >
-                <View style={[styles.iconCon, {backgroundColor: '#d7d7fc'}]}>
-                  <Icon name="account-balance" color={'#6161fa'} size={20}/>
-                </View>
-                <Text style={[styles.label, styles.passText]}>Add Account</Text>
-              </TouchableOpacity>
-              <Divider />
-              <TouchableOpacity style={styles.actionCard} >
-                <View style={[styles.iconCon, {backgroundColor: '#d7fae1'}]}>
-                  <Icon name="switch-account" color={'#05a635'} size={20}/>
-                </View>
-                <Text style={[styles.label, styles.passText]}>Switch Account</Text>
-              </TouchableOpacity>
-            </View>
+            <ScrollView>
+              <View style={styles.detail}>
+                <TouchableOpacity style={styles.actionCard} >
+                  <View style={[styles.iconCon, {backgroundColor: '#d7d7fc'}]}>
+                    <Icon name="account-balance" color={'#6161fa'} size={20}/>
+                  </View>
+                  <Text style={[styles.label, styles.passText]}>Add Account</Text>
+                </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity style={styles.actionCard} >
+                  <View style={[styles.iconCon, {backgroundColor: '#d7fae1'}]}>
+                    <Icon name="switch-account" color={'#05a635'} size={20}/>
+                  </View>
+                  <Text style={[styles.label, styles.passText]}>Switch Account</Text>
+                </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity style={styles.actionCard} >
+                  <View style={[styles.iconCon, {backgroundColor: Colors.lightRed}]}>
+                    <Icon name="logout" color={Colors.red} size={20}/>
+                  </View>
+                  <Text style={[styles.label, styles.passText]}>Logout</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
-          <Modal isOpen={open} onClose={() => setOpen(false)} safeAreaTop={true}>
-            <Modal.Content maxWidth="350" {...styles['center']}>
-              <Modal.Header style={{borderBottomWidth: 0}}>Update Password</Modal.Header>
-              <Modal.Body>
-                <FormControl>
-                  {/* <FormControl.Label>New Password</FormControl.Label> */}
-                  <InputBox type={'password'} placeholder="Enter New Password" />
-                </FormControl>
-              </Modal.Body>
-              <Modal.Footer style={{borderTopWidth: 0}}>
-                <Button.Group space={2}>
-                  <CustomButton title="Cancel" variant="ghost" colorScheme="blueGray" onSubmit={() => {
-                    setOpen(false);
-                  }}>
-                  </CustomButton>
-                  <CustomButton title="Update" onSubmit={() => {
+          <Actionsheet isOpen={open} onClose={() => setOpen(false)} hideDragIndicator>
+            <Actionsheet.Content borderTopRadius="20" px={4}>
+              <Box w="100%" py={5} justifyContent="center">
+                <Text style={[styles.label, styles.header]}>Update Password</Text>
+                <Text style={[styles.value, {paddingTop: 10}]}>Set the new password for your account so that you can login and access all the features.</Text>
+              </Box>
+              <FormControl pt={2}>
+                <InputBox type={'password'} placeholder="Enter New Password" />
+              </FormControl>
+              <View style={styles.footerBtn}>
+                <CustomButton title="Cancel" variant="ghost" colorScheme="blueGray" onSubmit={() => {
                   setOpen(false);
                 }}>
-                  </CustomButton>
-                </Button.Group>
-              </Modal.Footer>
-            </Modal.Content>
-          </Modal>
+                </CustomButton>
+                <CustomButton title="Update" onSubmit={() => {
+                  setOpen(false);
+                }}>
+                </CustomButton>
+              </View>
+            </Actionsheet.Content>
+          </Actionsheet>
       </SafeAreaView>
 }
 
@@ -92,8 +107,16 @@ const styles = StyleSheet.create({
   avatar: {
     width: 100,
     height: 100,
-    backgroundColor: '#fff',
-    borderRadius: 50
+    borderRadius: 50,
+    color: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  char: {
+    color: '#fff',
+    fontSize: 22,
+    fontWeight: 600,
+    textTransform: 'capitalize'
   },
   avatarText: {
     fontSize: 18,
@@ -149,7 +172,22 @@ const styles = StyleSheet.create({
   iconCon: {
     padding: 5,
     borderRadius: 10,
-    
+  },
+  editIcon: {
+    position: 'absolute',
+    zIndex: 9,
+    top: 20,
+    right: 15
+  },
+  header: {
+    fontSize: 16,
+    textAlign: 'left'
+  },
+  footerBtn: {
+    flexDirection: 'row',
+    paddingVertical: 20,
+    justifyContent: 'flex-end',
+    width: '100%'
   }
 });
 

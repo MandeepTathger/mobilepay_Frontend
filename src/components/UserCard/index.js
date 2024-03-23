@@ -1,11 +1,12 @@
 import { Text } from "native-base";
 import { StyleSheet, View } from "react-native";
-import Colors from "../../../color";
+import Colors from "../../../constants/color";
+import Avatar from "../Avatar";
 
 
 const UserCard = ({title, text, width, amount}) => {
   return <View style={[styles.card, {width: width}]}>
-          <View style={styles.img}></View>
+          <Avatar name={text || title} width={40} height={40} />
           <View style={styles.data}>
             <View style={styles.labels}>
               <Text style={styles.heading}>{title}</Text>
@@ -33,13 +34,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10
-  },
-  img: {
-    width: 40,
-    height: 40,
-    backgroundColor: 'lightgray',
-    borderRadius: 20,
-    overflow: 'hidden'
   },
   data: {
     flex: 1,
