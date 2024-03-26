@@ -5,6 +5,7 @@ import { login } from "../../../services/authServices";
 import { useToast } from 'native-base';
 import InputBox from "../../components/Input";
 import CustomButton from "../../components/Button";
+import { useDispatch } from "react-redux";
 
 const LoginScreen = ({navigation}) => {
 
@@ -15,6 +16,7 @@ const LoginScreen = ({navigation}) => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
+  const dispatch = useDispatch();
 
   const handleChange = (val, key) => {
     setUser({...user, [key]: val})
@@ -34,10 +36,10 @@ const LoginScreen = ({navigation}) => {
       setErrors({})
       setIsLoading(true)
       try{
-        const data = await login(user)
+        const data = await login(user, dispatch)
         if(data){
           setIsLoading(false)
-          navigation.navigate('Home')
+          navigation.navigate('landingPage', {screen: 'Home'})
           toast.show({
             description: "Welcome"
           })
@@ -50,8 +52,6 @@ const LoginScreen = ({navigation}) => {
       } 
     }
   }
-
-  console.log(user, "user>>>")
 
   return (
     <SafeAreaView style={styles.main}>

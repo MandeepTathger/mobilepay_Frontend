@@ -6,13 +6,14 @@ import CustomButton from "../../../../components/Button";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const CreateUser = ({navigation}) => {
+const CreateUser = ({route, navigation}) => {
+  console.log(route?.params?.backscreen, "route?.params?.backscreen")
   return <SafeAreaView style={styles.page}>       
           <View>
-            <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('userList')} >
+            <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate(route?.params?.backscreen || 'userList')} >
               <Icon name="arrow-back" color={Colors.primary} size={20} />
             </TouchableOpacity>
-            <Text textAlign={'center'} style={styles.heading}>Create User</Text>
+            <Text textAlign={'center'} style={styles.heading}>{(route?.params?.key === 'edit') ? 'Edit User' : 'Create User'}</Text>
           </View>
           <FormControl mb={6}>
             <InputBox 

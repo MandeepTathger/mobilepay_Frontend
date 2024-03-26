@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Actionsheet, Box, Button, Divider, FormControl, Modal, Text, useDisclose } from "native-base";
+import { Actionsheet, Box, Divider, FormControl, Text } from "native-base";
 import Colors from "../../../constants/color";
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -8,39 +8,60 @@ import InputBox from "../../components/Input";
 import CustomButton from "../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AvatarColors from "../../../constants/avatarColors";
-import ConfirmationModal from "../../components/ConfirmationModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+import BottomDrawer from "../../components/BottomDrawer";
+import UpdatePassword from "./components/UpdatePassword";
+import QRCode from "./components/QRCode";
 
-const Profile = () => {
+const Profile = ({navigation}) => {
 
   const [open, setOpen] = useState(false);
+  const [qrOpen, setQROpen] = useState(false);
+  const userInfo = useSelector(state => state.user.userInfo)
 
-  const char = "Username"?.substring(0,1)
+  const char = (userInfo?.name || userInfo?.userName)?.substring(0,1) || ''
+
+  const logout = async() => {
+    await AsyncStorage.removeItem('token')
+    navigation.navigate('login')
+    return true
+  }
 
   return <SafeAreaView style={styles.page}>
           <View style={styles.coloredCon}>
-            <TouchableOpacity style={styles.editIcon}>
+            <TouchableOpacity 
+              style={styles.editIcon} 
+              // onPress={() => navigation.navigate('Users', {screen: 'createUser', params: {key: 'edit', backscreen: 'Profile'}})}
+              >
               <FeatherIcon name="edit" color={'#fff'} size={25}/>
             </TouchableOpacity>
             <View style={[styles.avatar, {backgroundColor: AvatarColors[char]}]}>
               <Text style={styles.char}>{char}</Text>
+              <TouchableOpacity 
+                style={[styles.qrIcon, {backgroundColor: AvatarColors[char]}]}
+                onPress={() => setQROpen(true)}
+              >
+                <Icon name="qr-code-2" color={'#fff'} size={25}/>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.avatarText}>Username</Text>
+            <Text style={styles.avatarText}>{userInfo?.name || userInfo?.userName}</Text>
           </View>
           <View style={styles.detailCon}>
             <View style={styles.detail}>
               <View style={styles.data}>
                 <Text style={styles.label}>Email</Text>
-                <Text style={styles.value}>test@gmail.com</Text>
+                <Text style={styles.value}>{userInfo?.email || '-'}</Text>
               </View>
               <Divider />
               <View style={styles.data}>
                 <Text style={styles.label}>Name</Text>
-                <Text style={styles.value}>-</Text>
+                <Text style={styles.value}>{userInfo?.name || '-'}</Text>
               </View>
               <Divider />
               <View style={styles.data}>
                 <Text style={styles.label}>Username</Text>
-                <Text style={styles.value}>-</Text>
+                <Text style={styles.value}>{userInfo?.userName || '-'}</Text>
               </View>
             </View>
             <View style={[styles.detail, {paddingVertical: 0}]}>
@@ -67,7 +88,7 @@ const Profile = () => {
                   <Text style={[styles.label, styles.passText]}>Switch Account</Text>
                 </TouchableOpacity>
                 <Divider />
-                <TouchableOpacity style={styles.actionCard} >
+                <TouchableOpacity style={styles.actionCard} onPress={logout}>
                   <View style={[styles.iconCon, {backgroundColor: Colors.lightRed}]}>
                     <Icon name="logout" color={Colors.red} size={20}/>
                   </View>
@@ -76,27 +97,18 @@ const Profile = () => {
               </View>
             </ScrollView>
           </View>
-          <Actionsheet isOpen={open} onClose={() => setOpen(false)} hideDragIndicator>
-            <Actionsheet.Content borderTopRadius="20" px={4}>
-              <Box w="100%" py={5} justifyContent="center">
-                <Text style={[styles.label, styles.header]}>Update Password</Text>
-                <Text style={[styles.value, {paddingTop: 10}]}>Set the new password for your account so that you can login and access all the features.</Text>
-              </Box>
-              <FormControl pt={2}>
-                <InputBox type={'password'} placeholder="Enter New Password" />
-              </FormControl>
-              <View style={styles.footerBtn}>
-                <CustomButton title="Cancel" variant="ghost" colorScheme="blueGray" onSubmit={() => {
-                  setOpen(false);
-                }}>
-                </CustomButton>
-                <CustomButton title="Update" onSubmit={() => {
-                  setOpen(false);
-                }}>
-                </CustomButton>
-              </View>
-            </Actionsheet.Content>
-          </Actionsheet>
+          <BottomDrawer
+            isOpen={open} 
+            onClose={() => setOpen(false)}
+          >
+            <UpdatePassword onSubmit={() => setOpen(false)}/>
+          </BottomDrawer>
+          <BottomDrawer 
+            isOpen={qrOpen} 
+            onClose={() => setQROpen(false)}
+          >
+            <QRCode />
+          </BottomDrawer>
       </SafeAreaView>
 }
 
@@ -160,7 +172,6 @@ const styles = StyleSheet.create({
     color: Colors.text
   },
   actionCard: {
-    // paddingHorizontal: 20,
     paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'center'
@@ -179,15 +190,14 @@ const styles = StyleSheet.create({
     top: 20,
     right: 15
   },
-  header: {
-    fontSize: 16,
-    textAlign: 'left'
-  },
-  footerBtn: {
-    flexDirection: 'row',
-    paddingVertical: 20,
-    justifyContent: 'flex-end',
-    width: '100%'
+  qrIcon: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'grey'
   }
 });
 

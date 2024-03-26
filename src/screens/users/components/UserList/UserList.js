@@ -29,6 +29,7 @@ const UserList = ({navigation}) => {
     return <View style={styles.rowBack}>
             <TouchableOpacity 
               style={[styles.actionCard, {backgroundColor: '#d7fae1'}]}
+              onPress={() => navigation.navigate('createUser', {key: 'edit'})}
             >
               <Icon name="edit" color={'#05a635'} size={25}/>
             </TouchableOpacity>

@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   useColorScheme,
@@ -18,18 +18,31 @@ import { NativeBaseProvider, extendTheme } from 'native-base';
 import { Provider } from 'react-redux'
 import { store } from './app/store'
 import MainHomeScreen from './src/screens/tabs';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+
   const config = {
 		initialColorMode: "secondary",  // initial color mode 
 	}
 
 	const extendedTheme = extendTheme({ config })
+  // const [isToken, setIsToken] = useState(false)
 
+  // useEffect(() => {
+  //   const getToken = async() => {
+  //     const token = await AsyncStorage.getItem('token')
+  //     if(token){
+  //       setIsToken(true)
+  //     }
+  //     return token
+  //   }
+  //   getToken()
+  // }, [isToken])
+  
   return (
     <Provider store={store}>
       <NativeBaseProvider theme={extendedTheme}>
@@ -38,16 +51,15 @@ function App(): React.JSX.Element {
             screenOptions={{
               headerShown: false
             }}>
-            {/* <Stack.Screen
+            <Stack.Screen
               name="login"
               component={LoginScreen}
               options={{title: 'Login'}}
-            /> */}
+            /> 
             <Stack.Screen
               name="landingPage"
               component={MainHomeScreen}
             />
-            {/* <Stack.Screen name="Profile" component={ProfileScreen} /> */}
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
