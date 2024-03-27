@@ -29,3 +29,13 @@ export const updateUser = async (id, body) => {
     throw error?.response?.data?.message
   }
 };
+
+export const deleteUser = async (id) => {
+  try {
+    const response = await axiosInstance.delete(`/user/delete/${id}`)
+    return response.data;
+  } catch (error) {
+    console.log(error.response.data.message, "error>")
+    throw error?.response?.data?.message
+  }
+};

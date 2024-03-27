@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text } from "native-base";
+import { Text, useToast } from "native-base";
 import UserCard from "../../../../components/UserCard";
 import CustomButton from "../../../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,22 +7,24 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useEffect, useRef, useState } from "react";
 import ConfirmationModal from "../../../../components/ConfirmationModal";
-import { getUsers } from "../../../../../services/userServices";
+import { deleteUser, getUsers } from "../../../../../services/userServices";
 import { useSelector } from "react-redux";
 
-const UserList = ({navigation}) => {
+const UserList = ({route, navigation}) => {
 
-  const [logoutModal, setLogoutModal] = useState(false)
+  const [deleteModal, setDeleteModal] = useState(false)
   const [userList, setUserList] = useState([])
+  const [selectedUser, setSelectedUser] = useState()
   const userInfo = useSelector(state => state.user.userInfo)
+  const toast = useToast();
   // const swipeListViewRef = useRef(null);
-
+  
   useEffect(() => {
     getUserList()
-  }, [])
+  }, [route?.params?.newUser])
 
   const getUserList = async() => {
-    const users = await getUsers(userInfo?.id, userInfo?.token)
+    const users = await getUsers(userInfo?.id)
     setUserList(users)
   }  
 
@@ -32,6 +34,29 @@ const UserList = ({navigation}) => {
   //     swipeListViewRef?.current?.closeRow(item.key);
   //   }
   // }
+
+  const handleDelete = async() => {
+    try{
+      const res = await deleteUser(selectedUser?._id)
+      if(res){
+        toast.show({
+          description: 'User deleted successfully',
+          placement: 'top',
+          duration: 2000
+        })
+        setDeleteModal(false)
+        getUserList()
+      } 
+    } catch(err){
+      console.log(err,"err>>>>")
+      toast.show({
+        description: err,
+        placement: 'top',
+        duration: 2000
+      })
+    }
+    
+  }
 
   const hiddenItems = ({item, row}) => {
     return <View style={styles.rowBack}>
@@ -44,7 +69,7 @@ const UserList = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.actionCard}
-              onPress={() => setLogoutModal(true)}
+              onPress={() => {setDeleteModal(true); setSelectedUser(item)}}
             >
               <Icon name="delete" color={'#f54242'} size={25}/>
             </TouchableOpacity>
@@ -81,11 +106,12 @@ const UserList = ({navigation}) => {
             </SwipeListView>
           </View>
           <ConfirmationModal 
-            isOpen={logoutModal}
-            onClose={() => setLogoutModal(false)}
+            isOpen={deleteModal}
+            onClose={() => setDeleteModal(false)}
             title="Delete"
             description="Are you sure you want to delete this user?"
             confirmButtonText="Delete"
+            onSubmit={handleDelete}
           />
       </SafeAreaView>
 }

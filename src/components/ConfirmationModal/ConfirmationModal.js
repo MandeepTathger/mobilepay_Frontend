@@ -4,7 +4,7 @@ import CustomButton from "../Button";
 import { StyleSheet } from "react-native";
 import Colors from "../../../constants/color";
 
-const ConfirmationModal = ({isOpen, onClose, title, description, confirmButtonText}) => {
+const ConfirmationModal = ({isOpen, onClose, title, description, confirmButtonText, onSubmit}) => {
 
   // const [isOpen, setIsOpen] = useState(false);
   // const onClose = () => setIsOpen(false);
@@ -22,7 +22,7 @@ const ConfirmationModal = ({isOpen, onClose, title, description, confirmButtonTe
                 <Button.Group space={2}>
                   <CustomButton title="Cancel" variant="ghost" colorScheme="blueGray" onSubmit={onClose}>
                   </CustomButton>
-                  <CustomButton color={Colors.red} title={confirmButtonText} onSubmit={onClose}>
+                  <CustomButton color={Colors.red} title={confirmButtonText} onSubmit={onSubmit}>
                   </CustomButton>
                 </Button.Group>
               </Modal.Footer>

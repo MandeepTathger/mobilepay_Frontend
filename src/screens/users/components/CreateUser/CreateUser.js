@@ -26,8 +26,6 @@ const CreateUser = ({route, navigation}) => {
     setData({...data, [key]: val})
   }
 
-  console.log(route?.params?.user, "route?.params?.key>>")
-
   const handleSubmit = async() => {
     
     if(currentUser){
@@ -45,7 +43,7 @@ const CreateUser = ({route, navigation}) => {
             description: 'User updated successfully',
             placement: 'top'
           })
-          navigation.navigate('userList')
+          navigation.navigate('userList', {newUser: true})
         } 
       } catch(err){
         toast.show({
@@ -73,7 +71,7 @@ const CreateUser = ({route, navigation}) => {
             description: 'User created successfully',
             placement: 'top'
           })
-          navigation.navigate('userList')
+          navigation.navigate('userList', {newUser: true})
         } 
       } catch(err){
         toast.show({
@@ -84,7 +82,6 @@ const CreateUser = ({route, navigation}) => {
       }
     }
   }
-  console.log(data, "sjdk")
   
   return <SafeAreaView style={styles.page}>       
           <View>
