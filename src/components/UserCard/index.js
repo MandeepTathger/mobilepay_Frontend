@@ -10,7 +10,7 @@ const UserCard = ({title, text, width, amount}) => {
           <View style={styles.data}>
             <View style={styles.labels}>
               <Text style={styles.heading}>{title}</Text>
-              <Text style={styles.text}>{text}</Text>
+              <Text style={styles.text}>{text || '-'}</Text>
             </View>
             <View>
               <Text style={styles.heading}>{amount}</Text>

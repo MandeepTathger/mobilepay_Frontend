@@ -5,25 +5,25 @@ import CustomButton from "../../../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SwipeListView } from "react-native-swipe-list-view";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ConfirmationModal from "../../../../components/ConfirmationModal";
+import { getUsers } from "../../../../../services/userServices";
+import { useSelector } from "react-redux";
 
 const UserList = ({navigation}) => {
 
   const [logoutModal, setLogoutModal] = useState(false)
+  const [userList, setUserList] = useState([])
+  const userInfo = useSelector(state => state.user.userInfo)
 
-  const data = [{
-    name: 'user1'
-  }, {
-    name: 'Aman'
-  }, {
-    name: 'Mandy'
-  }, {
-    name: 'Rupi'
-  }, {
-    userName: 'hello'
-  }]
-  
+  useEffect(() => {
+    getUserList()
+  }, [])
+
+  const getUserList = async() => {
+    const users = await getUsers(userInfo?.id, userInfo?.token)
+    setUserList(users)
+  }  
 
   const hiddenItems = () => {
     return <View style={styles.rowBack}>
@@ -45,7 +45,7 @@ const UserList = ({navigation}) => {
   const renderItem = ({item, index}) => {
     return <UserCard 
             key={index}
-            title={'Username'} 
+            title={item.userName} 
             text={item.name} 
             width={'100%'}
             amount={'100'}
@@ -63,7 +63,7 @@ const UserList = ({navigation}) => {
           </View>
           <View>
             <SwipeListView
-              data={data}
+              data={userList}
               renderItem={renderItem}
               renderHiddenItem={hiddenItems}
               rightOpenValue={-135}
