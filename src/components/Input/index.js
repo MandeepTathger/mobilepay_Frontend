@@ -1,6 +1,6 @@
 import { Input } from "native-base";
 
-const InputBox = ({ handleChange, placeholder, type }) => {
+const InputBox = ({ handleChange, placeholder, type, autoCapitalize, value }) => {
     return <Input 
               variant="rounded" 
               size="md" 
@@ -10,6 +10,8 @@ const InputBox = ({ handleChange, placeholder, type }) => {
               pl={5} 
               type={type} 
               onChangeText={handleChange}
+              autoCapitalize={autoCapitalize}
+              value={value}
             />
 }
 

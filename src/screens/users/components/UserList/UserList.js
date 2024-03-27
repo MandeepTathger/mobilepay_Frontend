@@ -5,7 +5,7 @@ import CustomButton from "../../../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SwipeListView } from "react-native-swipe-list-view";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConfirmationModal from "../../../../components/ConfirmationModal";
 import { getUsers } from "../../../../../services/userServices";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ const UserList = ({navigation}) => {
   const [logoutModal, setLogoutModal] = useState(false)
   const [userList, setUserList] = useState([])
   const userInfo = useSelector(state => state.user.userInfo)
+  // const swipeListViewRef = useRef(null);
 
   useEffect(() => {
     getUserList()
@@ -25,11 +26,19 @@ const UserList = ({navigation}) => {
     setUserList(users)
   }  
 
-  const hiddenItems = () => {
+  // const updateUserAction = (item, row) => {
+  //   navigation.navigate('createUser', {key: 'edit', user: item})
+  //   if (swipeListViewRef?.current) {
+  //     swipeListViewRef?.current?.closeRow(item.key);
+  //   }
+  // }
+
+  const hiddenItems = ({item, row}) => {
     return <View style={styles.rowBack}>
             <TouchableOpacity 
               style={[styles.actionCard, {backgroundColor: '#d7fae1'}]}
-              onPress={() => navigation.navigate('createUser', {key: 'edit'})}
+              onPress={() => navigation.navigate('createUser', {key: 'edit', user: item})}
+              // onPress={() => updateUserAction(item, row)}
             >
               <Icon name="edit" color={'#05a635'} size={25}/>
             </TouchableOpacity>
@@ -63,6 +72,7 @@ const UserList = ({navigation}) => {
           </View>
           <View>
             <SwipeListView
+              // ref={swipeListViewRef}
               data={userList}
               renderItem={renderItem}
               renderHiddenItem={hiddenItems}
