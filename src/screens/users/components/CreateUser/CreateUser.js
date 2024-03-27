@@ -27,7 +27,6 @@ const CreateUser = ({route, navigation}) => {
   }
 
   const handleSubmit = async() => {
-    
     if(currentUser){
       if(data.userName === ''){
         setErrors({userName: 'Please fill this field'})
@@ -35,6 +34,9 @@ const CreateUser = ({route, navigation}) => {
       }
       if(currentUser._id !== userInfo.id){
         data.parentId = userInfo.id
+      }
+      if(data.password === ''){
+        delete data.password
       }
       try{
         const res = await updateUser(currentUser._id, data)
