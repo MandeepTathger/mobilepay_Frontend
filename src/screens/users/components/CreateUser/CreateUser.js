@@ -124,7 +124,7 @@ const CreateUser = ({route, navigation}) => {
             />
           </FormControl>
           <CustomButton 
-            title={'Create'} 
+            title={(route?.params?.key === 'edit') ? 'Update' : 'Create'} 
             onSubmit={handleSubmit}
           />
         </SafeAreaView>

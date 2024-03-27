@@ -34,14 +34,18 @@ function App(): React.JSX.Element {
 
   // useEffect(() => {
   //   const getToken = async() => {
-  //     const token = await AsyncStorage.getItem('token')
+  //     const user = await AsyncStorage.getItem('user') 
+  //     let token = null
+  //     if(user){
+  //       token = JSON.parse(user).token
+  //     }
   //     if(token){
   //       setIsToken(true)
   //     }
   //     return token
   //   }
   //   getToken()
-  // }, [isToken])
+  // }, [])
   
   return (
     <Provider store={store}>
@@ -55,7 +59,7 @@ function App(): React.JSX.Element {
               name="login"
               component={LoginScreen}
               options={{title: 'Login'}}
-            /> 
+            />
             <Stack.Screen
               name="landingPage"
               component={MainHomeScreen}

@@ -1,6 +1,7 @@
 import UserList from "./components/UserList";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CreateUser from "./components/CreateUser";
+import UpdateProfile from "./components/UpdateProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,10 @@ const Users = () => {
           <Stack.Screen
             name="createUser"
             component={CreateUser}
+          />
+          <Stack.Screen
+            name="updateProfile"
+            component={UpdateProfile}
           />
         </Stack.Navigator>
 }

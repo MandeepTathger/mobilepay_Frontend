@@ -1,38 +1,38 @@
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Actionsheet, Box, Divider, FormControl, Text } from "native-base";
+import { Divider, Text } from "native-base";
 import Colors from "../../../constants/color";
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState } from "react";
-import InputBox from "../../components/Input";
-import CustomButton from "../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AvatarColors from "../../../constants/avatarColors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import BottomDrawer from "../../components/BottomDrawer";
 import UpdatePassword from "./components/UpdatePassword";
 import QRCode from "./components/QRCode";
+import { cleartUser } from "../../../slices/userSlice";
 
 const Profile = ({navigation}) => {
 
   const [open, setOpen] = useState(false);
   const [qrOpen, setQROpen] = useState(false);
   const userInfo = useSelector(state => state.user.userInfo)
+  const dispatch = useDispatch()
 
   const char = (userInfo?.name || userInfo?.userName)?.substring(0,1) || ''
 
   const logout = async() => {
     await AsyncStorage.removeItem('token')
+    dispatch(cleartUser())
     navigation.navigate('login')
-    return true
   }
 
   return <SafeAreaView style={styles.page}>
           <View style={styles.coloredCon}>
             <TouchableOpacity 
               style={styles.editIcon} 
-              // onPress={() => navigation.navigate('Users', {screen: 'createUser', params: {key: 'edit', backscreen: 'Profile'}})}
+              // onPress={() => navigation.navigate('Users', {screen: 'updateProfile'})}
               >
               <FeatherIcon name="edit" color={'#fff'} size={25}/>
             </TouchableOpacity>
