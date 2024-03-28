@@ -30,6 +30,7 @@ const HomeScreen = () => {
               width={'47%'} 
               icon={<MaterialIcon name="today" color={Colors.purple} size={20} />}
               iconBackground={Colors.lightPurple}
+              height={100}
             />
             <Card 
               title={isSuperAdmin ? `Total Commission` : `Total Collection`} 
@@ -37,6 +38,7 @@ const HomeScreen = () => {
               width={'47%'} 
               icon={<MaterialIcon name="money" color={Colors.green} size={20} />}
               iconBackground={Colors.lightGreen}
+              height={100}
             />
           </View>
           <View style={styles.fullWidth}>
@@ -46,6 +48,7 @@ const HomeScreen = () => {
               width={'100%'} 
               icon={isSuperAdmin ? <Icon name="users" color={Colors.red} size={18} /> : <MaterialIcon name="swap-horiz" color={Colors.red} size={20} />}
               iconBackground={Colors.lightRed}
+              height={80}
             />
           </View>
           <Text style={styles.label}>{getLabel()}</Text>

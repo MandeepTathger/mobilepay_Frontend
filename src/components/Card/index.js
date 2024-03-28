@@ -3,21 +3,23 @@ import { StyleSheet, View } from "react-native";
 import Colors from "../../../constants/color";
 
 
-const Card = ({title, text, width, icon, iconBackground}) => {
-  return <View style={[styles.card, {width: width}]}>
-          <View style={[styles.icon, {backgroundColor: iconBackground}]}>
-            {icon}
+const Card = ({title, text, width, icon, iconBackground, height}) => {
+  return <View style={[styles.card, {width, height}]}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Text style={styles.heading}>{text}</Text>
+            <View style={[styles.icon, {backgroundColor: iconBackground}]}>
+              {icon}
+            </View>
           </View>
-          <View width='75%' >
-            <Text style={styles.heading}>{title}</Text>
-            <Text style={styles.text}>{text}</Text>
+          <View >
+            <Text style={styles.text}>{title}</Text>
           </View>
         </View>
 }
 
 const styles = StyleSheet.create({
   card: {
-    height: 100,
+    // height: 100,
     borderColor: '#fff',
     backgroundColor: '#fff',
     borderWidth: 1,
@@ -28,7 +30,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     paddingVertical: 15,
     paddingHorizontal: 10,
-    flexDirection: 'row',
+    justifyContent: 'space-between'
+    // flexDirection: 'row',
     // alignItems: 'top'
   },
   heading: {
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 5,
-    marginTop: 5
+    alignSelf: 'flex-end'
   }                    
 })
 
