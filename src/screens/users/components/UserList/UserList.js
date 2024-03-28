@@ -28,12 +28,10 @@ const UserList = ({route, navigation}) => {
     setUserList(users)
   }  
 
-  // const updateUserAction = (item, row) => {
-  //   navigation.navigate('createUser', {key: 'edit', user: item})
-  //   if (swipeListViewRef?.current) {
-  //     swipeListViewRef?.current?.closeRow(item.key);
-  //   }
-  // }
+  const updateUserAction = (rowMap, data) => {
+    navigation.navigate('createUser', {key: 'edit', user: data.item})
+    closeRow(rowMap, data.index);
+  }
 
   const handleDelete = async() => {
     try{
@@ -58,18 +56,23 @@ const UserList = ({route, navigation}) => {
     
   }
 
-  const hiddenItems = ({item, row}) => {
+  const closeRow = (rowMap, rowKey) => {
+    if (rowMap[rowKey]) {
+      rowMap[rowKey].closeRow();
+    }
+  };
+
+  const hiddenItems = (data, rowMap) => {
     return <View style={styles.rowBack}>
             <TouchableOpacity 
               style={[styles.actionCard, {backgroundColor: '#d7fae1'}]}
-              onPress={() => navigation.navigate('createUser', {key: 'edit', user: item})}
-              // onPress={() => updateUserAction(item, row)}
+              onPress={() => updateUserAction(rowMap, data)}
             >
               <Icon name="edit" color={'#05a635'} size={25}/>
             </TouchableOpacity>
             <TouchableOpacity 
               style={styles.actionCard}
-              onPress={() => {setDeleteModal(true); setSelectedUser(item)}}
+              onPress={() => { setDeleteModal(true); setSelectedUser(data.item)}}
             >
               <Icon name="delete" color={'#f54242'} size={25}/>
             </TouchableOpacity>
@@ -97,11 +100,11 @@ const UserList = ({route, navigation}) => {
           </View>
           <View>
             <SwipeListView
-              // ref={swipeListViewRef}
               data={userList}
               renderItem={renderItem}
               renderHiddenItem={hiddenItems}
               rightOpenValue={-135}
+              keyExtractor={(_, index) => index.toString()}
             > 
             </SwipeListView>
           </View>
