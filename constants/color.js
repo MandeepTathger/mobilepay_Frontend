@@ -4,7 +4,11 @@ const Colors = {
     heading: '#525252',
     text: '#737373',
     red: '#f54242',
-    lightRed: '#fce1e1'
+    lightRed: '#fce1e1',
+    purple: '#6161fa',
+    lightPurple: '#d7d7fc',
+    green: '#05a635',
+    lightGreen: '#d7fae1'
     // success: '#28a745',
     // danger: '#dc3545',
     // warning: '#ffc107',

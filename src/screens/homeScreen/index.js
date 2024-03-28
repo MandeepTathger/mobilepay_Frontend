@@ -4,20 +4,55 @@ import Card from '../../components/Card';
 import UserCard from '../../components/UserCard';
 import Colors from '../../../constants/color';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
+import UserRole from '../../../constants/userRole';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = () => {
+  const userInfo = useSelector(state => state.user.userInfo)
+  const isSuperAdmin = userInfo?.role === UserRole.superAdmin
+  const getLabel = () => {
+    if(userInfo?.role === UserRole.admin){
+      return 'Last 5 Transactions'
+    } else if(userInfo?.role === UserRole.superAdmin) {
+      return 'Top 5 Users'
+    } else {
+      return ''
+    } 
+  }
+  
   return <SafeAreaView style={styles.home}>
           <View style={styles.conHorizontal}>
-            <Card title={'Heading'} text={'12123123'} width={'47%'} />
-            <Card title={'Heading'} text={'12123123'} width={'47%'} />
+            <Card 
+              title={isSuperAdmin? `Today's Commission` : `Today's Collection`} 
+              text={'2000'} 
+              width={'47%'} 
+              icon={<MaterialIcon name="today" color={Colors.purple} size={20} />}
+              iconBackground={Colors.lightPurple}
+            />
+            <Card 
+              title={isSuperAdmin ? `Total Commission` : `Total Collection`} 
+              text={'30000'} 
+              width={'47%'} 
+              icon={<MaterialIcon name="money" color={Colors.green} size={20} />}
+              iconBackground={Colors.lightGreen}
+            />
           </View>
           <View style={styles.fullWidth}>
-            <Card title={'Heading'} text={'12123123'} width={'100%'} />
+            <Card 
+              title={isSuperAdmin ? `Total Users` : `Total Transactions`} 
+              text={'20'} 
+              width={'100%'} 
+              icon={isSuperAdmin ? <Icon name="users" color={Colors.red} size={18} /> : <MaterialIcon name="swap-horiz" color={Colors.red} size={20} />}
+              iconBackground={Colors.lightRed}
+            />
           </View>
-          <Text style={styles.label}>Top 5 Users</Text>
+          <Text style={styles.label}>{getLabel()}</Text>
           <View>
             <ScrollView  showsVerticalScrollIndicator={false}>
-              {[1,2,3,4,5].map(i => {
+              {userInfo?.role === UserRole.superAdmin ?
+              [1,2,3,4,5].map(i => {
                 return <UserCard 
                         key={i}
                         title={'UserName'} 
@@ -25,7 +60,18 @@ const HomeScreen = () => {
                         width={'100%'}
                         amount={'100'}
                       />
-              })}
+              }) :
+              [1,2,3,4,5].map(i => {
+                return <UserCard 
+                        key={i}
+                        title={'Name'} 
+                        text={'Date and Time'} 
+                        width={'100%'}
+                        amount={'100'}
+                        transaction={true}
+                      />
+              })
+              }
             </ScrollView>
           </View>
           

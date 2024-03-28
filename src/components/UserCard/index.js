@@ -4,9 +4,11 @@ import Colors from "../../../constants/color";
 import Avatar from "../Avatar";
 
 
-const UserCard = ({title, text, width, amount}) => {
+const UserCard = ({title, text, width, amount, transaction}) => {
   return <View style={[styles.card, {width: width}]}>
-          <Avatar name={text || title} width={40} height={40} />
+          {transaction ? 
+            <Avatar name={title} width={40} height={40} />
+          : <Avatar name={text || title} width={40} height={40} />}
           <View style={styles.data}>
             <View style={styles.labels}>
               <Text style={styles.heading}>{title}</Text>

@@ -1,11 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../homeScreen';
 import Users from '../Users';
-// import Icon from "react-native-vector-icons/MaterialIcons";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Profile from '../profile';
 import Colors from '../../../constants/color';
+import Transactions from '../Transactions';
+import { useSelector } from 'react-redux';
+import UserRole from '../../../constants/userRole';
 
 
 // import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -14,6 +16,9 @@ import Colors from '../../../constants/color';
 const Tab = createBottomTabNavigator();
 
 const MainHomeScreen = ({navigation}) => {
+  const userInfo = useSelector(state => state.user.userInfo) 
+  
+
   return <Tab.Navigator 
           screenOptions={{ 
             tabBarShowLabel: false,
@@ -39,7 +44,7 @@ const MainHomeScreen = ({navigation}) => {
               ),
             }}
           />
-          <Tab.Screen 
+          {userInfo?.role === UserRole.superAdmin && <Tab.Screen 
             name="Users" 
             component={Users} 
             options={{
@@ -47,8 +52,16 @@ const MainHomeScreen = ({navigation}) => {
                 <FeatherIcon name="list" color={focused ? Colors.primary : color} size={size} />
               )
             }}
-          />
-					{/* <Tab.Screen name="Settings" component={SettingsScreen} /> */}
+          />}
+					{userInfo?.role === UserRole.admin && <Tab.Screen 
+            name="Transactions" 
+            component={Transactions} 
+            options={{
+              tabBarIcon: ({ focused, color, size }) => (
+                <FeatherIcon name="list" color={focused ? Colors.primary : color} size={size} />
+              )
+            }}
+          />}
 				</Tab.Navigator>
 }
 

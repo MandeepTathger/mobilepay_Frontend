@@ -12,6 +12,7 @@ import BottomDrawer from "../../components/BottomDrawer";
 import UpdatePassword from "./components/UpdatePassword";
 import QRCode from "./components/QRCode";
 import { cleartUser } from "../../../slices/userSlice";
+import UserRole from "../../../constants/userRole";
 
 const Profile = ({navigation}) => {
 
@@ -38,12 +39,12 @@ const Profile = ({navigation}) => {
             </TouchableOpacity>
             <View style={[styles.avatar, {backgroundColor: AvatarColors[char]}]}>
               <Text style={styles.char}>{char}</Text>
-              <TouchableOpacity 
+              {userInfo?.role === UserRole.admin && <TouchableOpacity 
                 style={[styles.qrIcon, {backgroundColor: AvatarColors[char]}]}
                 onPress={() => setQROpen(true)}
               >
                 <Icon name="qr-code-2" color={'#fff'} size={25}/>
-              </TouchableOpacity>
+              </TouchableOpacity>}
             </View>
             <Text style={styles.avatarText}>{userInfo?.name || userInfo?.userName}</Text>
           </View>
@@ -75,15 +76,15 @@ const Profile = ({navigation}) => {
             <ScrollView>
               <View style={styles.detail}>
                 <TouchableOpacity style={styles.actionCard} >
-                  <View style={[styles.iconCon, {backgroundColor: '#d7d7fc'}]}>
-                    <Icon name="account-balance" color={'#6161fa'} size={20}/>
+                  <View style={[styles.iconCon, {backgroundColor: Colors.lightPurple}]}>
+                    <Icon name="account-balance" color={Colors.purple} size={20}/>
                   </View>
                   <Text style={[styles.label, styles.passText]}>Add Account</Text>
                 </TouchableOpacity>
                 <Divider />
                 <TouchableOpacity style={styles.actionCard} >
-                  <View style={[styles.iconCon, {backgroundColor: '#d7fae1'}]}>
-                    <Icon name="switch-account" color={'#05a635'} size={20}/>
+                  <View style={[styles.iconCon, {backgroundColor: Colors.lightGreen}]}>
+                    <Icon name="switch-account" color={Colors.green} size={20}/>
                   </View>
                   <Text style={[styles.label, styles.passText]}>Switch Account</Text>
                 </TouchableOpacity>
