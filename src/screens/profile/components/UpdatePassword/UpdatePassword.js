@@ -3,31 +3,47 @@ import InputBox from "../../../../components/Input";
 import CustomButton from "../../../../components/Button";
 import { StyleSheet } from "react-native";
 import Colors from "../../../../../constants/color";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateUser } from "../../../../../services/userServices";
 import { useSelector } from "react-redux";
 
-const UpdatePassword = ({onSubmit}) => {
+const UpdatePassword = ({onSubmit, isOpen}) => {
 
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(false)
   const userInfo = useSelector(state => state.user.userInfo) 
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setError(false)
+  }, [isOpen])
 
   const updatePassword = async() => {
+    if(password === ''){
+      setError(true)
+      return
+    }
+    setError(false)
+    setIsLoading(true)
     try{
       const res = await updateUser(userInfo.id, {password})
-      console.log(res, "ksjdksaj")
       if(res){
+        setIsLoading(false)
+        setPassword('')
+        onSubmit()
         toast.show({
           description: 'Password updated successfully',
-          placement: 'top'
+          placement: 'bottom',
+          duration: 2000
         })
-        onSubmit()
+        
       } 
     } catch(err){
+      setIsLoading(false)
       toast.show({
         description: err,
-        placement: 'top',
+        placement: 'bottom',
         duration: 2000
       })
     }
@@ -43,7 +59,7 @@ const UpdatePassword = ({onSubmit}) => {
             <Text style={[styles.label, styles.header]}>Update Password</Text>
             <Text style={[styles.value, {paddingTop: 10}]}>Set the new password for your account so that you can login and access all the features.</Text>
           </Box>
-          <FormControl pt={2}>
+          <FormControl isInvalid={error} pt={2}>
             <InputBox 
               type={'password'} 
               placeholder="Enter New Password" 
@@ -54,7 +70,11 @@ const UpdatePassword = ({onSubmit}) => {
           <View style={styles.footerBtn}>
             <CustomButton title="Cancel" variant="ghost" colorScheme="blueGray" onSubmit={cancel}>
             </CustomButton>
-            <CustomButton title="Update" onSubmit={updatePassword}>
+            <CustomButton 
+              title="Update" 
+              onSubmit={updatePassword}
+              isLoading={isLoading}
+            >
             </CustomButton>
           </View>    
         </>  

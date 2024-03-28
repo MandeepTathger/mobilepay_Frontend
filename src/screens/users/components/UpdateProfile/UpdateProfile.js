@@ -19,6 +19,7 @@ const UpdateProfile = ({route, navigation}) => {
   const [errors, setErrors] = useState({});
   const userInfo = useSelector(state => state.user.userInfo) 
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setData({
@@ -37,9 +38,11 @@ const UpdateProfile = ({route, navigation}) => {
       setErrors({userName: 'Please fill this field'})
       return
     }
+    setIsLoading(true)
     try{
       const res = await updateUser(userInfo.id, data)
       if(res){
+        setIsLoading(false)
         toast.show({
           description: 'Profile updated successfully',
           placement: 'top'
@@ -49,6 +52,7 @@ const UpdateProfile = ({route, navigation}) => {
         
       } 
     } catch(err){
+      setIsLoading(false)
       toast.show({
         description: err,
         placement: 'top',
@@ -90,6 +94,7 @@ const UpdateProfile = ({route, navigation}) => {
             />
           </FormControl>
           <CustomButton 
+            isLoading={isLoading}
             title={'Update'} 
             onSubmit={handleSubmit}
           />

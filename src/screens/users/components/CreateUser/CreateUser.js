@@ -18,6 +18,7 @@ const CreateUser = ({route, navigation}) => {
     email: currentUser?.email || '',
     password: ''
   })
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const userInfo = useSelector(state => state.user.userInfo) 
   const toast = useToast();
@@ -38,9 +39,11 @@ const CreateUser = ({route, navigation}) => {
       if(data.password === ''){
         delete data.password
       }
+      setIsLoading(true)
       try{
         const res = await updateUser(currentUser._id, data)
         if(res){
+          setIsLoading(false)
           toast.show({
             description: 'User updated successfully',
             placement: 'top'
@@ -48,6 +51,7 @@ const CreateUser = ({route, navigation}) => {
           navigation.navigate('userList', {newUser: true})
         } 
       } catch(err){
+        setIsLoading(false)
         toast.show({
           description: err,
           placement: 'top',
@@ -66,9 +70,11 @@ const CreateUser = ({route, navigation}) => {
       return
     } else {
       data.parentId = userInfo.id
+      setIsLoading(true)
       try{
         const res = await createUser(data) 
         if(res){
+          setIsLoading(false)
           toast.show({
             description: 'User created successfully',
             placement: 'top'
@@ -76,6 +82,7 @@ const CreateUser = ({route, navigation}) => {
           navigation.navigate('userList', {newUser: true})
         } 
       } catch(err){
+        setIsLoading(false)
         toast.show({
           description: err,
           placement: 'top',
@@ -126,6 +133,7 @@ const CreateUser = ({route, navigation}) => {
             />
           </FormControl>
           <CustomButton 
+            isLoading={isLoading}
             title={(route?.params?.key === 'edit') ? 'Update' : 'Create'} 
             onSubmit={handleSubmit}
           />

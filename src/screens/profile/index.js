@@ -101,7 +101,7 @@ const Profile = ({navigation}) => {
             isOpen={open} 
             onClose={() => setOpen(false)}
           >
-            <UpdatePassword onSubmit={() => setOpen(false)}/>
+            <UpdatePassword isOpen={open} onSubmit={() => setOpen(false)}/>
           </BottomDrawer>
           <BottomDrawer 
             isOpen={qrOpen} 
