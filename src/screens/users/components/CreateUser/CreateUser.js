@@ -46,9 +46,10 @@ const CreateUser = ({route, navigation}) => {
           setIsLoading(false)
           toast.show({
             description: 'User updated successfully',
-            placement: 'top'
+            placement: 'top',
+            duration: 2000
           })
-          navigation.navigate('userList', {newUser: true})
+          navigation.navigate('userList')
         } 
       } catch(err){
         setIsLoading(false)
@@ -77,9 +78,10 @@ const CreateUser = ({route, navigation}) => {
           setIsLoading(false)
           toast.show({
             description: 'User created successfully',
-            placement: 'top'
+            placement: 'top',
+            duration: 2000
           })
-          navigation.navigate('userList', {newUser: true})
+          navigation.navigate('userList')
         } 
       } catch(err){
         setIsLoading(false)

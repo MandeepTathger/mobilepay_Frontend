@@ -1,14 +1,15 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Text, useToast } from "native-base";
 import UserCard from "../../../../components/UserCard";
 import CustomButton from "../../../../components/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SwipeListView } from "react-native-swipe-list-view";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import ConfirmationModal from "../../../../components/ConfirmationModal";
 import { deleteUser, getUsers } from "../../../../../services/userServices";
 import { useSelector } from "react-redux";
+import { useFocusEffect } from "@react-navigation/native";
 
 const UserList = ({route, navigation}) => {
 
@@ -17,11 +18,13 @@ const UserList = ({route, navigation}) => {
   const [selectedUser, setSelectedUser] = useState()
   const userInfo = useSelector(state => state.user.userInfo)
   const toast = useToast();
-  // const swipeListViewRef = useRef(null);
-  
-  useEffect(() => {
-    getUserList()
-  }, [route?.params?.newUser])
+
+  useFocusEffect(
+    useCallback(() => {
+      getUserList()
+      return;
+    }, [])
+  );
 
   const getUserList = async() => {
     const users = await getUsers(userInfo?.id)
