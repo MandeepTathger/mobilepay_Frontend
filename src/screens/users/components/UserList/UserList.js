@@ -18,6 +18,11 @@ const UserList = ({route, navigation}) => {
   const [selectedUser, setSelectedUser] = useState()
   const userInfo = useSelector(state => state.user.userInfo)
   const toast = useToast();
+  const [closeAllRowsKey, setCloseAllRowsKey] = useState(0);
+
+  const closeAllRows = () => {
+    setCloseAllRowsKey((prevKey) => prevKey + 1);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -46,6 +51,7 @@ const UserList = ({route, navigation}) => {
           duration: 2000
         })
         setDeleteModal(false)
+        closeAllRows()
         getUserList()
       } 
     } catch(err){
@@ -55,8 +61,7 @@ const UserList = ({route, navigation}) => {
         placement: 'top',
         duration: 2000
       })
-    }
-    
+    }  
   }
 
   const closeRow = (rowMap, rowKey) => {
@@ -103,6 +108,7 @@ const UserList = ({route, navigation}) => {
           </View>
           <View>
             <SwipeListView
+              key={closeAllRowsKey}
               data={userList}
               renderItem={renderItem}
               renderHiddenItem={hiddenItems}
@@ -132,7 +138,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // backgroundColor: 'black',
     marginBottom: 20,
   },
   label: {
