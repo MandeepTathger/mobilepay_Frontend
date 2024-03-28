@@ -41,7 +41,9 @@ const LoginScreen = ({navigation}) => {
           setIsLoading(false)
           navigation.navigate('landingPage', {screen: 'Home'})
           toast.show({
-            description: "Welcome"
+            description: "Welcome",
+            placement: 'top',
+            duration: 2000
           })
         }
       } catch(err){

@@ -7,7 +7,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import { createUser, updateUser } from "../../../../../services/userServices";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../../../slices/userSlice";
 
 const UpdateProfile = ({route, navigation}) => {
 
@@ -20,6 +21,7 @@ const UpdateProfile = ({route, navigation}) => {
   const userInfo = useSelector(state => state.user.userInfo) 
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setData({
@@ -41,15 +43,22 @@ const UpdateProfile = ({route, navigation}) => {
     setIsLoading(true)
     try{
       const res = await updateUser(userInfo.id, data)
+
       if(res){
+        const updateUserInfo =  {...userInfo}
+        updateUserInfo.name = res.name
+        updateUserInfo.email = res.email
+        updateUserInfo.userName = res.userName
+
+        dispatch(setUser(updateUserInfo))
+
         setIsLoading(false)
         toast.show({
           description: 'Profile updated successfully',
-          placement: 'top'
+          placement: 'top',
+          duration: 2000
         })
-        navigation.popToTop()
-        navigation.navigate('Profile')
-        
+        navigation.navigate('profileScreen')
       } 
     } catch(err){
       setIsLoading(false)
@@ -63,7 +72,7 @@ const UpdateProfile = ({route, navigation}) => {
   
   return <SafeAreaView style={styles.page}>       
           <View>
-            <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Profile')} >
+            <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('profileScreen')} >
               <Icon name="arrow-back" color={Colors.primary} size={20} />
             </TouchableOpacity>
             <Text textAlign={'center'} style={styles.heading}>Update Profile</Text>
